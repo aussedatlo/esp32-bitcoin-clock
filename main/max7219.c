@@ -28,7 +28,7 @@ void max7219_init(void) {
     max7219_send(0x0F, 0x00); // Display test off
     max7219_send(0x0C, 0x01); // Normal operation
     max7219_send(0x0B, 0x07); // Display all 8 digits
-    max7219_send(0x0A, 0x08); // Medium brightness
+    max7219_send(0x0A, 0x01); // Low brightness (0x00-0x0F, where 0x0F is max)
     max7219_send(0x09, 0xFF); // Decode mode BCD
 
     ESP_LOGI(TAG, "MAX7219 initialized");
