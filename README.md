@@ -10,6 +10,14 @@ ESP32 project that fetches Bitcoin block height from blockchain.info API and dis
 - MAX7219 7-segment display driver
 - Modular code structure
 
+## Software Requirements
+
+Before building and flashing this project, you must install the Espressif IoT Development Framework (ESP-IDF).  
+Follow the official installation guide for your operating system:  
+[ESP-IDF Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html#installation)
+
+Ensure you have set up the required toolchain, Python environment, and added ESP-IDF tools to your PATH before proceeding.
+
 ## Hardware Required
 
 - ESP32 development board
