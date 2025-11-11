@@ -7,6 +7,7 @@
 #include "spi_module.h"
 #include "max7219.h"
 #include "http_client.h"
+#include "led_module.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -45,6 +46,8 @@ static void bitcoin_fetch_task(void* pvParameters) {
 
     while (1) {
         ESP_LOGI(TAG, "Fetching Bitcoin block height...");
+
+        led_module_blink();
         
         esp_err_t err = http_client_get(BITCOIN_API_URL, response_buffer, 
                                         sizeof(response_buffer) - 1, 
@@ -61,6 +64,7 @@ static void bitcoin_fetch_task(void* pvParameters) {
 
 void app_main(void) {
     ESP_LOGI(TAG, "Starting");
+    ESP_ERROR_CHECK(led_module_init());
     ESP_ERROR_CHECK(nvs_flash_init());
     wifi_init_sta();
     initialize_sntp();
