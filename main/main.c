@@ -15,6 +15,8 @@ static const char *TAG = "MAIN";
 #define BITCOIN_API_URL "https://blockchain.info/q/getblockcount"
 #define HTTP_RESPONSE_BUFFER_SIZE 32
 
+static int previous_block_height = -1; // Track previous block height
+
 static void bitcoin_response_callback(const char *response, int response_len, esp_err_t err) {
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "HTTP request failed: %s", esp_err_to_name(err));
@@ -24,7 +26,15 @@ static void bitcoin_response_callback(const char *response, int response_len, es
     if (response && response_len > 0) {
         int block_height = atoi(response);
         ESP_LOGI(TAG, "Bitcoin block height: %d", block_height);
+        
+        // Check if this is a new block
+        if (previous_block_height != -1 && block_height > previous_block_height) {
+            ESP_LOGI(TAG, "New block detected! Previous: %d, New: %d", previous_block_height, block_height);
+            max7219_new_block_animation();
+        }
+        
         max7219_display_number(block_height);
+        previous_block_height = block_height;
     } else {
         ESP_LOGW(TAG, "Empty response received");
     }
@@ -56,6 +66,7 @@ void app_main(void) {
     initialize_sntp();
     ESP_ERROR_CHECK(spi_module_init());
     max7219_init();
+    max7219_loader_animation();
     xTaskCreate(&bitcoin_fetch_task, "bitcoin_fetch_task", 4096, NULL, 5, NULL);
 }
 
