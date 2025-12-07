@@ -9,7 +9,7 @@ esp_err_t spi_module_init(void) {
     esp_err_t ret;
 
     spi_bus_config_t buscfg = {
-        .miso_io_num = -1,
+        .miso_io_num = PIN_NUM_MISO,
         .mosi_io_num = PIN_NUM_MOSI,
         .sclk_io_num = PIN_NUM_CLK,
         .quadwp_io_num = -1,
